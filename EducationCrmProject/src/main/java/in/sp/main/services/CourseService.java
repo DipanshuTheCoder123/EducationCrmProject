@@ -19,9 +19,7 @@ import in.sp.main.repositories.CourseRepository;
 @Service
 public class CourseService 
 {
-	private String UPLOAD_DIR = "src/main/resources/static/uploads/";
-	private String IMAGE_URL = "http://localhost:8080/uploads/";
-	
+
 	@Autowired
 	private CourseRepository courseRepository;
 	
@@ -36,19 +34,7 @@ public class CourseService
 	{
 		return courseRepository.findAll(pageable);
 	}
-	
-	public void addCourse(Course course, MultipartFile courseImg) throws IOException
-	{
-		String imgName = courseImg.getOriginalFilename();
-		Path imgPath = Paths.get(UPLOAD_DIR+imgName);
-		Files.write(imgPath, courseImg.getBytes());
-		
-		String imgUrl = IMAGE_URL+imgName;
-		course.setImageUrl(imgUrl);
-		
-		courseRepository.save(course);
-	}
-	
+
 	public Course getCourseDetails(String courseName)
 	{
 		return courseRepository.findByName(courseName);
@@ -71,21 +57,7 @@ public class CourseService
 			throw new RuntimeException("Course not found with name : "+courseName);
 		}
 	}
-	
-//	public List<String> getAllCourseNames()
-//	{
-//		List<Course> coursesList = courseRepository.findAll();
-//		
-//		List<String> courseNameList = new ArrayList<>();
-//		
-//		for(Course course : coursesList)
-//		{
-//			String courseName = course.getName();
-//			courseNameList.add(courseName);
-//		}
-//		
-//		return courseNameList;
-//	}
+
 	
 	public List<String> getAllCourseNames()
 	{
